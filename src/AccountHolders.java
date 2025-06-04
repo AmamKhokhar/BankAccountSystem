@@ -1,6 +1,6 @@
 public class AccountHolders {
 
-    private String id;
+    private int id;
     private int pin;
     private String name;
     private String contactNo;
@@ -9,7 +9,7 @@ public class AccountHolders {
     private String address;
     private double amount;
 
-    public AccountHolders(String id, int  pin, String name, String contactNo, String email, String cnic, String address, double amount) {
+    public AccountHolders(int id, int  pin, String name, String contactNo, String email, String cnic, String address, double amount) {
         this.id = id;
         this.pin = pin;
         this.name = name;
@@ -20,11 +20,11 @@ public class AccountHolders {
         this.amount = amount;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

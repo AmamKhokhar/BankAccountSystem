@@ -36,7 +36,8 @@ public class BankAccount {
 
 //        System.out.println("\n==Login Page==\n");
         System.out.println("Enter Your Account ID: ");
-        String id = scanner.nextLine();
+        int id = scanner.nextInt();
+        scanner.nextLine();
 
         System.out.println("Enter Your Pin: ");
         int pin = scanner.nextInt();
@@ -44,7 +45,7 @@ public class BankAccount {
 
         AccountHolders newAccountHolder = null;
         for (AccountHolders accountHolders : accountHolder) {
-            if (accountHolders.getId().equals(id)){
+            if (accountHolders.getId()==id){
                 newAccountHolder = accountHolders;
                 break;
             }
@@ -68,7 +69,7 @@ public class BankAccount {
                     System.out.println("1. Deposit Money");
                     System.out.println("2. Withdraw Money");
                     System.out.println("3. Check Balance");
-                    System.out.println("4. Exit\n");
+                    System.out.println("4. Logout\n");
                     System.out.println("Select Your Choice: ");
                     int choice = scanner.nextInt();
                     scanner.nextLine();
@@ -161,11 +162,12 @@ public class BankAccount {
 
     public void checkBalance() {
         System.out.println("Enter Your Account ID: ");
-        String id = scanner.nextLine();
+        int id = scanner.nextInt();
+        scanner.nextLine();
 
         AccountHolders newAccountHolder = null;
         for (AccountHolders accountHolder : accountHolder) {
-            if (accountHolder.getId().equals(id)) {
+            if (accountHolder.getId()==id) {
                 newAccountHolder = accountHolder;
                 break;
             }
@@ -181,7 +183,8 @@ public class BankAccount {
     public void deposit() {
 
         System.out.println("Enter Your Account ID: ");
-        String id = scanner.nextLine();
+        int id = scanner.nextInt();
+        scanner.nextLine();
 
 
         System.out.println("Enter Amount To Deposit: ");
@@ -190,7 +193,7 @@ public class BankAccount {
 
         AccountHolders newAccountHolder = null;
         for (AccountHolders accountHolder : accountHolder) {
-            if (accountHolder.getId().equals(id)) {
+            if (accountHolder.getId()==id) {
                 newAccountHolder = accountHolder;
                 break;
             }
@@ -208,7 +211,8 @@ public class BankAccount {
     public void withdrawAmount() {
 
         System.out.println("Enter Your Account ID: ");
-        String id = scanner.nextLine();
+        int id = scanner.nextInt();
+        scanner.nextLine();
 
         System.out.println("Enter Amount To Withdraw: ");
         double amountToWithdraw = scanner.nextDouble();
@@ -216,7 +220,7 @@ public class BankAccount {
 
         AccountHolders newAccountHolder = null;
         for (AccountHolders accountHolders1 : accountHolder) {
-            if (accountHolders1.getId().equals(id)) {
+            if (accountHolders1.getId()==id) {
                 newAccountHolder = accountHolders1;
                 break;
             }
@@ -260,7 +264,7 @@ public class BankAccount {
         double amount = scanner.nextDouble();
         scanner.nextLine();
 
-        AccountHolders accountHolder1 = new AccountHolders("1",pin,name,contact,email,cnic,address,amount);
+        AccountHolders accountHolder1 = new AccountHolders(accountHolder.size()+1,pin,name,contact,email,cnic,address,amount);
         accountHolder.add(accountHolder1);
 
         System.out.println("Account Added Successfully");
@@ -290,11 +294,12 @@ public class BankAccount {
     public void updateAccounts() {
 
         System.out.println("Enter Account Id To Update:");
-        String id = scanner.nextLine();
+        int id = scanner.nextInt();
+        scanner.nextLine();
 
         AccountHolders newAccountHolder = null;
         for (AccountHolders accountHolders : accountHolder){
-            if (accountHolders.getId().equals(id)){
+            if (accountHolders.getId()==id){
                 newAccountHolder = accountHolders;
                 break;
             }
@@ -325,11 +330,12 @@ public class BankAccount {
     public void deleteAccounts() {
 
         System.out.println("Enter Account Id To Remove: ");
-        String id = scanner.nextLine();
+        int id = scanner.nextInt();
+        scanner.nextLine();
 
         AccountHolders newAccountHolder = null;
         for (AccountHolders accountHolders : accountHolder){
-            if (accountHolders.getId().equals(id)){
+            if (accountHolders.getId()==id){
                 newAccountHolder = accountHolders;
                 break;
             }

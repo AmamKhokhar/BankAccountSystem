@@ -7,7 +7,7 @@ public class BankAccount {
     // Fields
     private List<AccountHolders> accountHolder;
     private List<Admin> admins;
-    ;
+
     Scanner scanner = new Scanner(System.in);
 
     // Parameterized Constructor
@@ -24,9 +24,9 @@ public class BankAccount {
         this.accountHolder = accountHolder;
     }
 
-    public void addAccount(AccountHolders accountHolders) {
-        accountHolder.add(accountHolders);
-    }
+//    public void addAccount(AccountHolders accountHolders) {
+//        accountHolder.add(accountHolders);
+//    }
 
     public void addAdmin(Admin admin) {
         admins.add(admin);
@@ -44,7 +44,7 @@ public class BankAccount {
 
         AccountHolders newAccountHolder = null;
         for (AccountHolders accountHolders : accountHolder) {
-            if (accountHolders.getId().equals(id)) {
+            if (accountHolders.getId().equals(id)){
                 newAccountHolder = accountHolders;
                 break;
             }
@@ -52,7 +52,7 @@ public class BankAccount {
         if (newAccountHolder != null) {
             if (newAccountHolder.getPin() == pin) {
                 System.out.println("Logged in Successfully\n");
-                System.out.println("Account Details");
+                System.out.println("Account Detail");
                 System.out.println("----------------------");
                 System.out.println("ID: " + newAccountHolder.getId());
                 System.out.println("Name: " + newAccountHolder.getName());
@@ -128,21 +128,24 @@ public class BankAccount {
 
                 while (true) {
 
-                    System.out.println("1. View Accounts");
-                    System.out.println("2. Update Account");
-                    System.out.println("3. Delete Account");
-                    System.out.println("4. Logout");
+                    System.out.println("1. Add Account");
+                    System.out.println("2. View Accounts");
+                    System.out.println("3. Update Account");
+                    System.out.println("4. Delete Account");
+                    System.out.println("5. Logout");
                     System.out.println("Select Your Choice: ");
                     int choice = scanner.nextInt();
                     scanner.nextLine();
 
-                    if (choice == 1) {
-                        viewAccounts();
+                    if (choice==1){
+                        addAccount();
                     } else if (choice == 2) {
-                        updateAccounts();
+                        viewAccounts();
                     } else if (choice == 3) {
-                        deleteAccounts();
+                        updateAccounts();
                     } else if (choice == 4) {
+                        deleteAccounts();
+                    } else if (choice == 5) {
                         break;
                     } else {
                         System.out.println("Please Enter Valid Option");
@@ -237,9 +240,37 @@ public class BankAccount {
 
     }
 
+    public void addAccount(){
+
+        System.out.println("Enter Account Information");
+        System.out.println("Enter Name: ");
+        String name = scanner.nextLine();
+        System.out.println("Enter Pin: ");
+        int pin = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Enter Contact No: ");
+        String contact = scanner.nextLine();
+        System.out.println("Enter Email: ");
+        String email = scanner.nextLine();
+        System.out.println("Enter Cnic: ");
+        String cnic = scanner.nextLine();
+        System.out.println("Enter Address: ");
+        String address = scanner.nextLine();
+        System.out.println("Enter Amount to Deposit Minimum 1000");
+        double amount = scanner.nextDouble();
+        scanner.nextLine();
+
+        AccountHolders accountHolder1 = new AccountHolders("1",pin,name,contact,email,cnic,address,amount);
+        accountHolder.add(accountHolder1);
+
+        System.out.println("Account Added Successfully");
+    }
+
     public void viewAccounts() {
 
-            if (accountHolder != null){
+            if (accountHolder.isEmpty()){
+                System.out.println("There is no account to show");
+            }else {
                 System.out.println("Accounts Detail");
                 System.out.println("----------------------");
                 for (AccountHolders accountHolders1 : accountHolder){
@@ -252,8 +283,6 @@ public class BankAccount {
                     System.out.println("Amount: " + accountHolders1.getAmount() + "\n");
                 }
                 System.out.println("----------------------");
-            }else {
-                System.out.println("There is no account to show");
             }
     }
 

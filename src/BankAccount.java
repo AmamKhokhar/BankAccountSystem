@@ -6,11 +6,13 @@ public class BankAccount {
 
     // Fields
     private List<AccountHolders> accountHolder;
+    private List<Admin> admins;;
     Scanner scanner = new Scanner(System.in);
 
     // Parameterized Constructor
     BankAccount(){
         accountHolder = new ArrayList<>();
+        admins = new ArrayList<>();
     }
 
     public List<AccountHolders> getAccountHolder() {
@@ -23,6 +25,131 @@ public class BankAccount {
 
     public void addAccount(AccountHolders accountHolders){
         accountHolder.add(accountHolders);
+    }
+
+    public void addAdmin(Admin admin){
+        admins.add(admin);
+    }
+
+    public void loginForAccountHolders(){
+
+        System.out.println("\n==Login Page==\n");
+        System.out.println("Enter Your Account ID: ");
+        String id = scanner.nextLine();
+
+        System.out.println("Enter Your Pin: ");
+        int pin = scanner.nextInt();
+        scanner.nextLine();
+
+        AccountHolders newAccountHolder = null;
+        for (AccountHolders accountHolders : accountHolder){
+            if (accountHolders.getId().equals(id)){
+                newAccountHolder = accountHolders;
+                break;
+            }
+        }
+        if (newAccountHolder != null){
+                if (newAccountHolder.getPin()==pin){
+                    System.out.println("Logged in Successfully\n");
+                    System.out.println("Account Details");
+                    System.out.println("----------------------");
+                    System.out.println("ID: " + newAccountHolder.getId());
+                    System.out.println("Name: " + newAccountHolder.getName());
+                    System.out.println("Contact: " + newAccountHolder.getContactNo());
+                    System.out.println("Email: " + newAccountHolder.getEmail());
+                    System.out.println("Address: " + newAccountHolder.getAddress());
+                    System.out.println("Amount: " + newAccountHolder.getAmount());
+                    System.out.println("----------------------");
+                    System.out.println();
+
+                    while(true){
+
+                        System.out.println("1. Deposit Money");
+                        System.out.println("2. Withdraw Money");
+                        System.out.println("3. Check Balance");
+                        System.out.println("4. Exit\n");
+                        System.out.println("Select Your Choice: ");
+                        int choice = scanner.nextInt();
+                        scanner.nextLine();
+
+                        if (choice==1){
+                            deposit();
+                        } else if (choice==2) {
+                            withdrawAmount();
+                        } else if (choice==3) {
+                            checkBalance();
+                        } else if (choice==4) {
+                            break;
+                        }else {
+                            System.out.println("Please Enter Valid Option");
+                        }
+
+                    }
+
+                }else {
+                    System.out.println("You Entered the Wrong Pin");
+                }
+        }else {
+            System.out.println("Account Does Not Exist With ID:" + id + "\n");
+        }
+
+    }
+
+    public void loginForAdmin(){
+
+        System.out.println("\n==Login Page==\n");
+        System.out.println("Enter Your Employ ID: ");
+        String employId = scanner.nextLine();
+        System.out.println("Enter Your Pin: ");
+        int pin = scanner.nextInt();
+        scanner.nextLine();
+
+        Admin newAdmin = null;
+        for (Admin admin : admins){
+            if (admin.getEmployId().equals(employId)){
+                newAdmin = admin;
+                break;
+            }
+        }
+        if (newAdmin != null){
+            if (newAdmin.getPin()==pin){
+                System.out.println("Logged in Successfully");
+                System.out.println("Admin Details");
+                System.out.println("----------------------");
+                System.out.println("EmployId: " + newAdmin.getEmployId());
+                System.out.println("Name: " + newAdmin.getName());
+                System.out.println("Contact: " + newAdmin.getContact());
+                System.out.println("Email: " + newAdmin.getEmail());
+                System.out.println("Address: " + newAdmin.getAddress());
+                System.out.println("----------------------");
+
+                while(true){
+
+                    System.out.println("1. View Accounts");
+                    System.out.println("2. Update Account");
+                    System.out.println("3. Delete Account");
+                    System.out.println("4. Exit");
+                    System.out.println("Select Your Choice: ");
+                    int choice = scanner.nextInt();
+
+                    if (choice==1){
+                        viewAccounts();
+                    } else if (choice==2) {
+                        updateAccounts();
+                    } else if (choice==3) {
+                        deleteAccounts();
+                    } else if (choice==4) {
+                        break;
+                    }else {
+                        System.out.println("Please Enter Valid Option");
+                    }
+                }
+            }else {
+                System.out.println("Entered Wrong Pin");
+            }
+        }else {
+            System.out.println("Admin Does Not Exist With EmployID: " + employId);
+        }
     }
 
     public void checkBalance(){
@@ -105,31 +232,35 @@ public class BankAccount {
 
     }
 
+    public void viewAccounts(){
+
+    }
+
+    public void updateAccounts(){
+
+    }
+
+    public void deleteAccounts(){
+
+    }
+
     public void menu(){
 
         System.out.println("\n==Welcome To Our Bank Management System==\n");
+        System.out.println("1. Admin");
+        System.out.println("2. Account Holder");
+        System.out.println("Select Your Role: ");
+        int role = scanner.nextInt();
+        scanner.nextLine();
 
-        while(true){
+        if (role==1){
 
-            System.out.println("1. Deposit Money");
-            System.out.println("2. Withdraw Money");
-            System.out.println("3. Check Balance");
-            System.out.println("4. Exit\n");
-            System.out.println("Select Your Choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            loginForAdmin();
 
-            if (choice==1){
-                deposit();
-            } else if (choice==2) {
-                withdrawAmount();
-            } else if (choice==3) {
-                checkBalance();
-            } else if (choice==4) {
-                break;
-            }else {
-                System.out.println("Please Enter Valid Option");
-            }
+        }
+        else if (role==2){
+
+            loginForAccountHolders();
 
         }
 

@@ -7,6 +7,7 @@ public class BankAccountImpl implements BankAccount{
     // Fields
     private List<AccountHolders> accountHolder;
     private List<Admin> admins;
+    public Integer id = null;
 
     Scanner scanner = new Scanner(System.in);
 
@@ -32,12 +33,13 @@ public class BankAccountImpl implements BankAccount{
         admins.add(admin);
     }
 
+
     @Override
     public void loginForAccountHolders() {
 
 //        System.out.println("\n==Login Page==\n");
         System.out.println("Enter Your Account ID: ");
-        int id = scanner.nextInt();
+        id = scanner.nextInt();
         scanner.nextLine();
 
         System.out.println("Enter Your Pin: ");
@@ -58,7 +60,7 @@ public class BankAccountImpl implements BankAccount{
                 System.out.println("----------------------");
                 System.out.println("ID: " + newAccountHolder.getId());
                 System.out.println("Name: " + newAccountHolder.getName());
-                System.out.println("Contact: " + newAccountHolder.getContactNo());
+                System.out.println("Contact: " + newAccountHolder.getContact());
                 System.out.println("Email: " + newAccountHolder.getEmail());
                 System.out.println("Address: " + newAccountHolder.getAddress());
                 System.out.println("Amount: " + newAccountHolder.getAmount());
@@ -164,9 +166,9 @@ public class BankAccountImpl implements BankAccount{
 
     @Override
     public void checkBalance() {
-        System.out.println("Enter Your Account ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+//        System.out.println("Enter Your Account ID: ");
+//        int id = scanner.nextInt();
+//        scanner.nextLine();
 
         AccountHolders newAccountHolder = null;
         for (AccountHolders accountHolder : accountHolder) {
@@ -186,9 +188,9 @@ public class BankAccountImpl implements BankAccount{
     @Override
     public void deposit() {
 
-        System.out.println("Enter Your Account ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+//        System.out.println("Enter Your Account ID: ");
+//        int id = scanner.nextInt();
+//        scanner.nextLine();
 
 
         System.out.println("Enter Amount To Deposit: ");
@@ -215,9 +217,9 @@ public class BankAccountImpl implements BankAccount{
     @Override
     public void withdrawAmount() {
 
-        System.out.println("Enter Your Account ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+//        System.out.println("Enter Your Account ID: ");
+//        int id = scanner.nextInt();
+//        scanner.nextLine();
 
         System.out.println("Enter Amount To Withdraw: ");
         double amountToWithdraw = scanner.nextDouble();
@@ -287,7 +289,7 @@ public class BankAccountImpl implements BankAccount{
                 for (AccountHolders accountHolders1 : accountHolder){
                     System.out.println("Account ID: " + accountHolders1.getId());
                     System.out.println("Name: " + accountHolders1.getName());
-                    System.out.println("Contact: " + accountHolders1.getContactNo());
+                    System.out.println("Contact: " + accountHolders1.getContact());
                     System.out.println("Email: " + accountHolders1.getEmail());
                     System.out.println("CNIC: " + accountHolders1.getCnic());
                     System.out.println("Address: " + accountHolders1.getAddress());
@@ -322,7 +324,7 @@ public class BankAccountImpl implements BankAccount{
             System.out.println("Enter Address: ");
             String newAddress = scanner.nextLine();
 
-            newAccountHolder.setContactNo(newContact);
+            newAccountHolder.setContact(newContact);
             newAccountHolder.setEmail(newEmail);
             newAccountHolder.setCnic(newCnic);
             newAccountHolder.setAddress(newAddress);

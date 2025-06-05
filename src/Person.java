@@ -3,7 +3,7 @@ public class Person {
     private String name;
     private String contact;
     private String email;
-    private  String address;
+    private String address;
 
     public Person(){}
 

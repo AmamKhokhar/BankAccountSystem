@@ -90,9 +90,9 @@ public class BankAccountImpl implements BankAccount{
                                 +"3. Check Balance\n"
                                 +"4. Logout\n"
                                 +"\nSelect Your Choice: ");
+
                         if (scanner.hasNextInt()){
                             int choice = scanner.nextInt();
-                            if (choice>0 && choice<5){
                                 if (choice == 1) {
                                     deposit();
                                 } else if (choice == 2) {
@@ -102,14 +102,12 @@ public class BankAccountImpl implements BankAccount{
                                 } else if (choice == 4) {
                                     break;
                                 }
-                            }else {
-                                System.out.println("Invalid input. Please Enter number b/w 1-4");
-                            }
+
                         }
                         else {
                             System.out.println("Invalid input. Please Enter number b/w 1-4");
+                            scanner.next();
                         }
-                        scanner.nextLine();
                 }
 
 
@@ -131,20 +129,20 @@ public class BankAccountImpl implements BankAccount{
             System.out.println("Enter Your Employ ID: ");
             if (scanner.hasNextInt()){
                 employId = scanner.nextInt();
-                scanner.nextLine();
                 while (true){
                     System.out.println("Enter Your Pin: ");
                     if (scanner.hasNextInt()){
                         pin = scanner.nextInt();
-                        scanner.nextLine();
                         break;
                     }else {
                         System.out.println("Invalid Pin. Please Enter Numbers");
+                        scanner.next();
                     }
                 }
                 break;
             }else {
                 System.out.println("Invalid input. Please enter number");
+                scanner.next();
             }
         }
 
@@ -216,11 +214,9 @@ public class BankAccountImpl implements BankAccount{
 
         double amountToDeposit;
         while (true){
-
             System.out.println("Enter Amount To Deposit: ");
             if (scanner.hasNextInt()){
                 amountToDeposit = scanner.nextDouble();
-                scanner.nextLine();
                 if(amountToDeposit>=1000.00 && amountToDeposit<=50000.00){
                     break;
                 }
@@ -234,6 +230,7 @@ public class BankAccountImpl implements BankAccount{
             }
 
         }
+
         findAccountHolder(id);
 
         if (newAccountHolder != null) {
@@ -395,6 +392,7 @@ public class BankAccountImpl implements BankAccount{
     public void updateAccount() {
 
         String contact , email , address;
+
         while (true){
             System.out.println("Enter Account Id To Update:");
             if (scanner.hasNextInt()){

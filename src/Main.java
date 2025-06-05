@@ -10,7 +10,7 @@ public class Main {
 //        bankAccount.addAccount(accountHolder2);
 //        bankAccount.addAccount(accountHolder3);
 
-        Admin admin1 = new Admin("1",1122,"Ahmed","03099988765","ahmed@gmail.com","Peshawar");
+        Admin admin1 = new Admin(1,1122,"Ahmed","03099988765","ahmed@gmail.com","Peshawar");
         bankAccount.addAdmin(admin1);
 
         bankAccount.menu();

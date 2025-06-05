@@ -1,19 +1,19 @@
 public class Admin extends Person{
 
-    private String employId;
+    private int employId;
     private int pin;
 
-    public Admin(String employId, int pin, String name, String contact, String email, String address) {
+    public Admin(int employId, int pin, String name, String contact, String email, String address) {
         super(name, contact,email ,address);
         this.employId = employId;
         this.pin = pin;
     }
 
-    public String getEmployId() {
+    public int getEmployId() {
         return employId;
     }
 
-    public void setEmployId(String employId) {
+    public void setEmployId(int employId) {
         this.employId = employId;
     }
 

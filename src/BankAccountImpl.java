@@ -7,6 +7,8 @@ public class BankAccountImpl implements BankAccount{
     private List<AccountHolders> accountHolder;
     private List<Admin> admins;
     public Integer id = null;
+    public Integer employId = null;
+    public int pin;
 
     Scanner scanner = new Scanner(System.in);
 
@@ -37,11 +39,30 @@ public class BankAccountImpl implements BankAccount{
         }
     }
 
+    Admin newAdmin = null;
+    public void findAdmin(int employId){
+        for (Admin admin : admins) {
+            if (admin.getEmployId()==employId) {
+                newAdmin = admin;
+                break;
+            }
+        }
+
+    }
+
     @Override
     public void loginForAccountHolders() {
 
-        System.out.println("Enter Your Account ID: ");
-        id = scanner.nextInt();
+        while (true){
+            System.out.println("Enter Your Account ID: ");
+            if (scanner.hasNextInt()){
+                id = scanner.nextInt();
+                break;
+            }else {
+                System.out.println("Invalid Input. Please Enter a Number");
+                scanner.next();
+            }
+        }
         scanner.nextLine();
 
         System.out.println("Enter Your Pin: ");
@@ -63,34 +84,41 @@ public class BankAccountImpl implements BankAccount{
                                     +"Amount: " + newAccountHolder.getAmount()+"\n"
                                     +"----------------------"+"\n");
 
-                while (true) {
-
-                    System.out.println("1. Deposit Money\n"
-                                        +"2. Withdraw Money\n"
-                                        +"3. Check Balance\n"
-                                        +"4. Logout\n"
-                                        +"\nSelect Your Choice: ");
-                    int choice = scanner.nextInt();
-                    scanner.nextLine();
-
-                    if (choice == 1) {
-                        deposit();
-                    } else if (choice == 2) {
-                        withdrawAmount();
-                    } else if (choice == 3) {
-                        checkBalance();
-                    } else if (choice == 4) {
-                        break;
-                    } else {
-                        System.out.println("Please Enter Valid Option");
-                    }
-
+                while (true){
+                        System.out.println("1. Deposit Money\n"
+                                +"2. Withdraw Money\n"
+                                +"3. Check Balance\n"
+                                +"4. Logout\n"
+                                +"\nSelect Your Choice: ");
+                        if (scanner.hasNextInt()){
+                            int choice = scanner.nextInt();
+                            if (choice>0 && choice<5){
+                                if (choice == 1) {
+                                    deposit();
+                                } else if (choice == 2) {
+                                    withdrawAmount();
+                                } else if (choice == 3) {
+                                    checkBalance();
+                                } else if (choice == 4) {
+                                    break;
+                                }
+                            }else {
+                                System.out.println("Invalid input. Please Enter number b/w 1-4");
+                            }
+                        }
+                        else {
+                            System.out.println("Invalid input. Please Enter number b/w 1-4");
+                        }
+                        scanner.nextLine();
                 }
 
-            } else {
+
+            }
+            else {
                 System.out.println("You Entered the Wrong Pin");
             }
-        } else {
+        }
+        else {
             System.out.println("Account Does Not Exist With ID:" + id + "\n");
         }
 
@@ -99,21 +127,29 @@ public class BankAccountImpl implements BankAccount{
     @Override
     public void loginForAdmin() {
 
-        System.out.println("Enter Your Employ ID: ");
-        String employId = scanner.nextLine();
-
-
-        System.out.println("Enter Your Pin: ");
-        int pin = scanner.nextInt();
-        scanner.nextLine();
-
-        Admin newAdmin = null;
-        for (Admin admin : admins) {
-            if (admin.getEmployId().equals(employId)) {
-                newAdmin = admin;
+        while(true){
+            System.out.println("Enter Your Employ ID: ");
+            if (scanner.hasNextInt()){
+                employId = scanner.nextInt();
+                scanner.nextLine();
+                while (true){
+                    System.out.println("Enter Your Pin: ");
+                    if (scanner.hasNextInt()){
+                        pin = scanner.nextInt();
+                        scanner.nextLine();
+                        break;
+                    }else {
+                        System.out.println("Invalid Pin. Please Enter Numbers");
+                    }
+                }
                 break;
+            }else {
+                System.out.println("Invalid input. Please enter number");
             }
         }
+
+        findAdmin(employId);
+
         if (newAdmin != null) {
             if (newAdmin.getPin() == pin) {
                     System.out.println("Logged in Successfully\n"+
@@ -127,28 +163,31 @@ public class BankAccountImpl implements BankAccount{
                                         "----------------------");
 
                 while (true) {
-
                     System.out.println("1. Add Account\n"+
                                         "2. View Accounts\n"+
                                         "3. Update Account\n"+
                                         "4. Delete Account\n"+
                                         "5. Logout\n"+
                                         "Select Your Choice: ");
-                    int choice = scanner.nextInt();
-                    scanner.nextLine();
+                    if (scanner.hasNextInt()){
+                        int choice = scanner.nextInt();
+                        scanner.nextLine();
 
-                    if (choice==1){
-                        addAccount();
-                    } else if (choice == 2) {
-                        viewAccount();
-                    } else if (choice == 3) {
-                        updateAccount();
-                    } else if (choice == 4) {
-                        deleteAccount();
-                    } else if (choice == 5) {
-                        break;
-                    } else {
-                        System.out.println("Please Enter Valid Option");
+                        if (choice==1){
+                            addAccount();
+                        } else if (choice == 2) {
+                            viewAccount();
+                        } else if (choice == 3) {
+                            updateAccount();
+                        } else if (choice == 4) {
+                            deleteAccount();
+                        } else if (choice == 5) {
+                            break;
+                        } else {
+                            System.out.println("Please Enter Valid Option");
+                        }
+                    }else {
+                        System.out.println("Invalid input. Please enter a number b/w 1-5");
                     }
                 }
             } else {
@@ -175,10 +214,26 @@ public class BankAccountImpl implements BankAccount{
     @Override
     public void deposit() {
 
-        System.out.println("Enter Amount To Deposit: ");
-        double amountToDeposit = scanner.nextDouble();
-        scanner.nextLine();
+        double amountToDeposit;
+        while (true){
 
+            System.out.println("Enter Amount To Deposit: ");
+            if (scanner.hasNextInt()){
+                amountToDeposit = scanner.nextDouble();
+                scanner.nextLine();
+                if(amountToDeposit>=1000.00 && amountToDeposit<=50000.00){
+                    break;
+                }
+                else {
+                    System.out.println("Invalid Amount. Please Enter Amount b/w 1000-50000");
+                    scanner.next();
+                }
+            }else {
+                System.out.println("Invalid Input. Please Enter Numbers");
+                scanner.next();
+            }
+
+        }
         findAccountHolder(id);
 
         if (newAccountHolder != null) {
@@ -194,10 +249,22 @@ public class BankAccountImpl implements BankAccount{
     @Override
     public void withdrawAmount() {
 
-        System.out.println("Enter Amount To Withdraw: ");
-        double amountToWithdraw = scanner.nextDouble();
-        scanner.nextLine();
+        double amountToWithdraw;
+        while (true){
+            System.out.println("Enter Amount To Withdraw: ");
+            if (scanner.hasNextInt()){
+                amountToWithdraw = scanner.nextDouble();
+                scanner.nextLine();
+                if (amountToWithdraw>=1000.00 && amountToWithdraw<=50000.00){
+                    break;
+                }else {
+                    System.out.println("Invalid Amount. Amount Must Be b/w 1000-50000");
+                }
+            }else {
+                System.out.println("Invalid Input. Please Enter Numbers");
+            }
 
+        }
         findAccountHolder(id);
 
         if (newAccountHolder != null) {
@@ -220,31 +287,87 @@ public class BankAccountImpl implements BankAccount{
     }
 
     @Override
-    public void addAccount(){
+    public void addAccount() {
+        String name, email, contact, cnic, address;
+        double amount;
+        int pin;
 
-        System.out.println("Enter Account Information");
-        System.out.println("Enter Name: ");
-        String name = scanner.nextLine();
-        System.out.println("Enter Pin: ");
-        int pin = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Enter Contact No: ");
-        String contact = scanner.nextLine();
-        System.out.println("Enter Email: ");
-        String email = scanner.nextLine();
-        System.out.println("Enter Cnic: ");
-        String cnic = scanner.nextLine();
-        System.out.println("Enter Address: ");
-        String address = scanner.nextLine();
-        System.out.println("Enter Amount to Deposit Minimum 1000");
-        double amount = scanner.nextDouble();
-        scanner.nextLine();
+        System.out.println("=== Enter Account Information ===");
 
-        AccountHolders accountHolder1 = new AccountHolders(accountHolder.size()+1,pin,name,contact,email,cnic,address,amount);
+        // Name
+        while (true) {
+            System.out.print("Enter Name: ");
+            name = scanner.nextLine();
+            if (name.matches("[a-zA-Z\\s]+")) break;
+            System.out.println("Invalid Name. Use only letters and spaces.");
+        }
+
+        // Pin
+        while (true) {
+            System.out.print("Enter PIN (4-digit number): ");
+            if (scanner.hasNextInt()) {
+                pin = scanner.nextInt();
+                if (pin >= 1000 && pin <= 9999) {
+                    scanner.nextLine(); // clear buffer
+                    break;
+                } else {
+                    System.out.println("PIN must be a 4-digit number.");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.next(); // clear invalid input
+            }
+        }
+
+        // Contact Number
+        while (true) {
+            System.out.print("Enter Contact No (e.g., 03XXXXXXXXX): ");
+            contact = scanner.nextLine();
+            if (contact.matches("03\\d{9}")) break;
+            System.out.println("Invalid contact number. Format should be 03XXXXXXXXX.");
+        }
+
+        // Email
+        while (true) {
+            System.out.print("Enter Email: ");
+            email = scanner.nextLine();
+            if (email.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")) break;
+            System.out.println("Invalid email format.");
+        }
+
+        // CNIC
+        while (true) {
+            System.out.print("Enter CNIC (xxxxx-xxxxxxx-x): ");
+            cnic = scanner.nextLine();
+            if (cnic.matches("\\d{5}-\\d{7}-\\d{1}")) break;
+            System.out.println("Invalid CNIC format.");
+        }
+
+        // Address
+        System.out.print("Enter Address: ");
+        address = scanner.nextLine(); // basic input, no validation applied
+
+        // Deposit Amount
+        while (true) {
+            System.out.print("Enter Amount to Deposit (1000 - 100000): ");
+            if (scanner.hasNextDouble()) {
+                amount = scanner.nextDouble();
+                scanner.nextLine(); // clear buffer
+                if (amount >= 1000.00 && amount <= 100000.00) break;
+                System.out.println("Amount must be between 1000 and 100000.");
+            } else {
+                System.out.println("Invalid input. Please enter a numeric value.");
+                scanner.next(); // clear invalid input
+            }
+        }
+
+        // Add Account
+        AccountHolders accountHolder1 = new AccountHolders(accountHolder.size() + 1, pin, name, contact, email, cnic, address, amount);
         accountHolder.add(accountHolder1);
 
-        System.out.println("Account Added Successfully");
+        System.out.println("✅ Account Added Successfully!");
     }
+
 
     @Override
     public void viewAccount() {
@@ -271,41 +394,69 @@ public class BankAccountImpl implements BankAccount{
     @Override
     public void updateAccount() {
 
-        System.out.println("Enter Account Id To Update:");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-
+        String contact , email , address;
+        while (true){
+            System.out.println("Enter Account Id To Update:");
+            if (scanner.hasNextInt()){
+                id = scanner.nextInt();
+                scanner.nextLine();
+                break;
+            }else {
+                System.out.println("Invalid Input. Please Enter Numbers");
+                scanner.next();
+            }
+        }
         findAccountHolder(id);
 
-        if (newAccountHolder != null){
-            System.out.println("Enter Contact: ");
-            String newContact = scanner.nextLine();
-            System.out.println("Enter Email: ");
-            String newEmail = scanner.nextLine();
-            System.out.println("Enter CNIC: ");
-            String newCnic = scanner.nextLine();
-            System.out.println("Enter Address: ");
-            String newAddress = scanner.nextLine();
+        if(newAccountHolder != null){
 
-            newAccountHolder.setContact(newContact);
-            newAccountHolder.setEmail(newEmail);
-            newAccountHolder.setCnic(newCnic);
-            newAccountHolder.setAddress(newAddress);
+            while (true){
 
-            System.out.println("Account Updated Successfully");
+                System.out.println("Enter Contact(03XXXXXXXXX): ");
+                contact = scanner.nextLine();
+                if (contact.matches("03\\d{9}")){
+                    break;
+                }else {
+                    System.out.println("Input Number in Formate(03XXXXXXXXX) :");
+                }
+            }
+
+            while (true){
+                System.out.println("Enter Email");
+                email = scanner.nextLine();
+                if (email.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")){
+                    break;
+                }else {
+                    System.out.println("Invalid Email Format");
+                }
+            }
+            System.out.println("Enter Address");
+            address = scanner.nextLine();
+
+            newAccountHolder.setContact(contact);
+            newAccountHolder.setEmail(email);
+            newAccountHolder.setAddress(address);
+            System.out.println("✅ Account Updated Successfully");
+
 
         }else {
-            System.out.println("Account Does Not Exist With ID:" + id + "\n");
+            System.out.println("Account Does Not Exist With ID: " + id + "\n");
         }
-
     }
 
     @Override
     public void deleteAccount() {
 
-        System.out.println("Enter Account Id To Remove: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+        while (true){
+            System.out.println("Enter Account Id To Remove: ");
+            if (scanner.hasNextInt()){
+                id = scanner.nextInt();
+                break;
+            }else {
+                System.out.println("Invalid Input. Please Enter Numbers");
+                scanner.next();
+            }
+        }
 
         findAccountHolder(id);
 
@@ -328,17 +479,22 @@ public class BankAccountImpl implements BankAccount{
                                 "2. Account Holder\n"+
                                 "3. Exit\n"+
                                 "Select Your Role: ");
-            int role = scanner.nextInt();
-            scanner.nextLine();
 
-            if (role == 1) {
-                loginForAdmin();
-            } else if (role == 2) {
-                loginForAccountHolders();
-            } else if (role == 3) {
-                break;
-            } else {
-                System.out.println("Please Enter Valid Choice");
+            if (scanner.hasNextInt()){
+                int role = scanner.nextInt();
+                scanner.nextLine();
+
+                if (role == 1) {
+                    loginForAdmin();
+                } else if (role == 2) {
+                    loginForAccountHolders();
+                } else if (role == 3) {
+                    break;
+                } else {
+                    System.out.println("Please Enter Valid Choice");
+                }
+            }else {
+                System.out.println("Invalid Input. Please Select Options b/w 1-3");
             }
 
         }

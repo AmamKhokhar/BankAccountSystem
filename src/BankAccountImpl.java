@@ -52,25 +52,24 @@ public class BankAccountImpl implements BankAccount{
 
         if (newAccountHolder != null) {
             if (newAccountHolder.getPin() == pin) {
-                System.out.println("Logged in Successfully\n");
-                System.out.println("Account Detail");
-                System.out.println("----------------------");
-                System.out.println("ID: " + newAccountHolder.getId());
-                System.out.println("Name: " + newAccountHolder.getName());
-                System.out.println("Contact: " + newAccountHolder.getContact());
-                System.out.println("Email: " + newAccountHolder.getEmail());
-                System.out.println("Address: " + newAccountHolder.getAddress());
-                System.out.println("Amount: " + newAccountHolder.getAmount());
-                System.out.println("----------------------");
-                System.out.println();
+                System.out.println("Logged in Successfully\n"
+                                    +"Account Detail\n"
+                                    +"----------------------\n"
+                                    +"ID: " + newAccountHolder.getId()+"\n"
+                                    +"Name: " + newAccountHolder.getName()+"\n"
+                                    +"Contact: " + newAccountHolder.getContact()+"\n"
+                                    +"Email: " + newAccountHolder.getEmail()+"\n"
+                                    +"Address: " + newAccountHolder.getAddress()+"\n"
+                                    +"Amount: " + newAccountHolder.getAmount()+"\n"
+                                    +"----------------------"+"\n");
 
                 while (true) {
 
-                    System.out.println("1. Deposit Money");
-                    System.out.println("2. Withdraw Money");
-                    System.out.println("3. Check Balance");
-                    System.out.println("4. Logout\n");
-                    System.out.println("Select Your Choice: ");
+                    System.out.println("1. Deposit Money\n"
+                                        +"2. Withdraw Money\n"
+                                        +"3. Check Balance\n"
+                                        +"4. Logout\n"
+                                        +"\nSelect Your Choice: ");
                     int choice = scanner.nextInt();
                     scanner.nextLine();
 
@@ -117,24 +116,24 @@ public class BankAccountImpl implements BankAccount{
         }
         if (newAdmin != null) {
             if (newAdmin.getPin() == pin) {
-                System.out.println("Logged in Successfully");
-                System.out.println("Admin Details");
-                System.out.println("----------------------");
-                System.out.println("EmployId: " + newAdmin.getEmployId());
-                System.out.println("Name: " + newAdmin.getName());
-                System.out.println("Contact: " + newAdmin.getContact());
-                System.out.println("Email: " + newAdmin.getEmail());
-                System.out.println("Address: " + newAdmin.getAddress());
-                System.out.println("----------------------");
+                    System.out.println("Logged in Successfully\n"+
+                                        "Admin Details\n"+
+                                        "----------------------\n"+
+                                        "EmployId: " + newAdmin.getEmployId()+"\n"+
+                                        "Name: " + newAdmin.getName()+"\n"+
+                                        "Contact: " + newAdmin.getContact()+"\n"+
+                                        "Email: " + newAdmin.getEmail()+"\n"+
+                                        "Address: " + newAdmin.getAddress()+"\n"+
+                                        "----------------------");
 
                 while (true) {
 
-                    System.out.println("1. Add Account");
-                    System.out.println("2. View Accounts");
-                    System.out.println("3. Update Account");
-                    System.out.println("4. Delete Account");
-                    System.out.println("5. Logout");
-                    System.out.println("Select Your Choice: ");
+                    System.out.println("1. Add Account\n"+
+                                        "2. View Accounts\n"+
+                                        "3. Update Account\n"+
+                                        "4. Delete Account\n"+
+                                        "5. Logout\n"+
+                                        "Select Your Choice: ");
                     int choice = scanner.nextInt();
                     scanner.nextLine();
 
@@ -256,13 +255,13 @@ public class BankAccountImpl implements BankAccount{
                 System.out.println("Accounts Detail");
                 System.out.println("----------------------");
                 for (AccountHolders accountHolders1 : accountHolder){
-                    System.out.println("Account ID: " + accountHolders1.getId());
-                    System.out.println("Name: " + accountHolders1.getName());
-                    System.out.println("Contact: " + accountHolders1.getContact());
-                    System.out.println("Email: " + accountHolders1.getEmail());
-                    System.out.println("CNIC: " + accountHolders1.getCnic());
-                    System.out.println("Address: " + accountHolders1.getAddress());
-                    System.out.println("Amount: " + accountHolders1.getAmount() + "\n");
+                    System.out.println("Account ID: " + accountHolders1.getId()+"\n"+
+                                        "Name: " + accountHolders1.getName()+"\n"+
+                                        "Contact: " + accountHolders1.getContact()+"\n"+
+                                        "Email: " + accountHolders1.getEmail()+"\n"+
+                                        "CNIC: " + accountHolders1.getCnic()+"\n"+
+                                        "Address: " + accountHolders1.getAddress()+"\n"+
+                                        "Amount: " + accountHolders1.getAmount() + "\n");
                 }
                 System.out.println("----------------------");
             }
@@ -324,11 +323,11 @@ public class BankAccountImpl implements BankAccount{
         System.out.println("\n==Welcome To Our Bank Management System==\n");
 
         while (true) {
-            System.out.println("==Login Page==\n");
-            System.out.println("1. Admin");
-            System.out.println("2. Account Holder");
-            System.out.println("3. Exit");
-            System.out.println("Select Your Role: ");
+            System.out.println("==Login Page==\n"+
+                                "1. Admin\n"+
+                                "2. Account Holder\n"+
+                                "3. Exit\n"+
+                                "Select Your Role: ");
             int role = scanner.nextInt();
             scanner.nextLine();
 

@@ -1,3 +1,4 @@
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,6 +10,12 @@ public class BankAccountImpl implements BankAccount{
     public Integer id = null;
     public Integer employId = null;
     public int pin;
+    String url = "jdbc:mysql://localhost:3306/bankaccountsystem";
+    String username = "root";
+    String password = "amam";
+
+
+
 
     Scanner scanner = new Scanner(System.in);
 
@@ -287,9 +294,12 @@ public class BankAccountImpl implements BankAccount{
     public void addAccount() {
         String name, email, contact, cnic, address;
         double amount;
-        int pin;
+        int  pin;
 
         System.out.println("=== Enter Account Information ===");
+        System.out.print("Enter Id: ");
+        id = scanner.nextInt();
+        scanner.nextLine();
 
         // Name
         while (true) {
@@ -358,33 +368,91 @@ public class BankAccountImpl implements BankAccount{
             }
         }
 
-        // Add Account
-        AccountHolders accountHolder1 = new AccountHolders(accountHolder.size() + 1, pin, name, contact, email, cnic, address, amount);
-        accountHolder.add(accountHolder1);
+        String query = "insert into accountholders(id,pin,holder_name,email,contact,address,cnic,amount) values(?,?,?,?,?,?,?,?)";
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Driver loaded successfully !!");
 
-        System.out.println("✅ Account Added Successfully!");
+            Connection connection = DriverManager.getConnection(url,username,password);
+            System.out.println("Connection established !!");
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,id);
+            preparedStatement.setInt(2,pin);
+            preparedStatement.setString(3,name);
+            preparedStatement.setString(4,email);
+            preparedStatement.setString(5,contact);
+            preparedStatement.setString(6,address);
+            preparedStatement.setString(7,cnic);
+            preparedStatement.setDouble(8,amount);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected>0){
+                System.out.println("Account Added Successfully !!");
+            }else {
+                System.err.println("Account is not added");
+            }
+
+        }catch (SQLException | ClassNotFoundException e){
+            System.out.println(e.getMessage());
+        }
+
+        // Add Account
+//        AccountHolders accountHolder1 = new AccountHolders(accountHolder.size() + 1, pin, name, contact, email, cnic, address, amount);
+//        accountHolder.add(accountHolder1);
+
+//        System.out.println("✅ Account Added Successfully!");
     }
 
 
     @Override
     public void viewAccount() {
 
-            if (accountHolder.isEmpty()){
-                System.out.println("There is no account to show");
-            }else {
-                System.out.println("Accounts Detail");
-                System.out.println("----------------------");
-                for (AccountHolders accountHolders1 : accountHolder){
-                    System.out.println("Account ID: " + accountHolders1.getId()+"\n"+
-                                        "Name: " + accountHolders1.getName()+"\n"+
-                                        "Contact: " + accountHolders1.getContact()+"\n"+
-                                        "Email: " + accountHolders1.getEmail()+"\n"+
-                                        "CNIC: " + accountHolders1.getCnic()+"\n"+
-                                        "Address: " + accountHolders1.getAddress()+"\n"+
-                                        "Amount: " + accountHolders1.getAmount() + "\n");
-                }
-                System.out.println("----------------------");
+        String query = "select * from accountholders";
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Driver loaded successfully !!");
+
+            Connection connection = DriverManager.getConnection(url,username,password);
+            System.out.println("Connection established !!");
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while(rs.next()){
+                System.out.println("=====================");
+                System.out.println("ID: "+rs.getInt("id"));
+                System.out.println("Name: "+rs.getString("holder_name"));
+                System.out.println("Email: "+rs.getString("email"));
+                System.out.println("Contact: "+rs.getString("contact"));
+                System.out.println("Address: "+rs.getString("address"));
+                System.out.println("Current Balance: "+rs.getDouble("amount"));
+                System.out.println();
             }
+
+        }catch (SQLException | ClassNotFoundException e){
+            System.out.println(e.getMessage());
+        }
+
+
+
+
+
+//            if (accountHolder.isEmpty()){
+//                System.out.println("There is no account to show");
+//            }else {
+//                System.out.println("Accounts Detail");
+//                System.out.println("----------------------");
+//                for (AccountHolders accountHolders1 : accountHolder){
+//                    System.out.println("Account ID: " + accountHolders1.getId()+"\n"+
+//                                        "Name: " + accountHolders1.getName()+"\n"+
+//                                        "Contact: " + accountHolders1.getContact()+"\n"+
+//                                        "Email: " + accountHolders1.getEmail()+"\n"+
+//                                        "CNIC: " + accountHolders1.getCnic()+"\n"+
+//                                        "Address: " + accountHolders1.getAddress()+"\n"+
+//                                        "Amount: " + accountHolders1.getAmount() + "\n");
+//                }
+//                System.out.println("----------------------");
+//            }
     }
 
 
@@ -404,11 +472,8 @@ public class BankAccountImpl implements BankAccount{
                 scanner.next();
             }
         }
-        findAccountHolder(id);
 
-        if(newAccountHolder != null){
-
-            while (true){
+        while (true){
 
                 System.out.println("Enter Contact(03XXXXXXXXX): ");
                 contact = scanner.nextLine();
@@ -417,29 +482,84 @@ public class BankAccountImpl implements BankAccount{
                 }else {
                     System.out.println("Input Number in Formate(03XXXXXXXXX) :");
                 }
-            }
-
-            while (true){
-                System.out.println("Enter Email");
-                email = scanner.nextLine();
-                if (email.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")){
-                    break;
-                }else {
-                    System.out.println("Invalid Email Format");
-                }
-            }
-            System.out.println("Enter Address");
-            address = scanner.nextLine();
-
-            newAccountHolder.setContact(contact);
-            newAccountHolder.setEmail(email);
-            newAccountHolder.setAddress(address);
-            System.out.println("✅ Account Updated Successfully");
-
-
-        }else {
-            System.out.println("Account Does Not Exist With ID: " + id + "\n");
         }
+
+        while (true){
+            System.out.println("Enter Email");
+            email = scanner.nextLine();
+            if (email.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")){
+                break;
+            }else {
+                System.out.println("Invalid Email Format");
+            }
+        }
+                System.out.println("Enter Address");
+                address = scanner.nextLine();
+
+        try{
+
+            String query = "update accountholders set email = ?, contact = ?, address = ?" +
+                    " where id = ?";
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Driver loaded successfully !!");
+
+            Connection connection = DriverManager.getConnection(url,username,password);
+            System.out.println("Connection Established Successfully !!");
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1,email);
+            preparedStatement.setString(2,contact);
+            preparedStatement.setString(3,address);
+            preparedStatement.setInt(4,id);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected>0){
+                System.out.println("Account updated successfully !!");
+            }else {
+                System.out.println("Account does not updated");
+            }
+
+        }catch (ClassNotFoundException | SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+
+
+//        findAccountHolder(id);
+//
+//        if(newAccountHolder != null){
+//
+//            while (true){
+//
+//                System.out.println("Enter Contact(03XXXXXXXXX): ");
+//                contact = scanner.nextLine();
+//                if (contact.matches("03\\d{9}")){
+//                    break;
+//                }else {
+//                    System.out.println("Input Number in Formate(03XXXXXXXXX) :");
+//                }
+//            }
+//
+//            while (true){
+//                System.out.println("Enter Email");
+//                email = scanner.nextLine();
+//                if (email.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")){
+//                    break;
+//                }else {
+//                    System.out.println("Invalid Email Format");
+//                }
+//            }
+//            System.out.println("Enter Address");
+//            address = scanner.nextLine();
+//
+//            newAccountHolder.setContact(contact);
+//            newAccountHolder.setEmail(email);
+//            newAccountHolder.setAddress(address);
+//            System.out.println("✅ Account Updated Successfully");
+//
+//
+//        }else {
+//            System.out.println("Account Does Not Exist With ID: " + id + "\n");
+//        }
     }
 
     @Override
@@ -456,15 +576,41 @@ public class BankAccountImpl implements BankAccount{
             }
         }
 
-        findAccountHolder(id);
 
-        if (newAccountHolder != null){
-            accountHolder.remove(newAccountHolder);
-            System.out.println("Account Removed Successfully");
-        }else {
-            System.out.println("Account Does Not Exist With ID:" + id + "\n");
+        try{
+
+            String query = "delete from accountholders" +
+                            " where id = ?";
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Driver loaded successfully !!");
+
+            Connection connection = DriverManager.getConnection(url,username,password);
+            System.out.println("Connection Established Successfully !!");
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,id);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected>0){
+                System.out.println("Account deleted successfully !!");
+            }else {
+                System.out.println("Account is not deleted");
+            }
+
+        }catch (ClassNotFoundException | SQLException e){
+            System.out.println(e.getMessage());
         }
+
+        //        findAccountHolder(id);
+//
+//        if (newAccountHolder != null){
+//            accountHolder.remove(newAccountHolder);
+//            System.out.println("Account Removed Successfully");
+//        }else {
+//            System.out.println("Account Does Not Exist With ID:" + id + "\n");
+//        }
     }
+
+    public void DbConnectivity(){}
 
     @Override
     public void menu() {
